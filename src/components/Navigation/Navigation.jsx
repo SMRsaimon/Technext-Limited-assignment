@@ -7,11 +7,11 @@ const Navigation = () => {
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <div className="container">
-          <Navbar.Brand href="#home">Blog Application</Navbar.Brand>
+          <Navbar.Brand href="#AllPost">Blog Application</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mx-auto ">
-              <Nav.Link as={Link} to="/home">ALL Posts</Nav.Link>
+              <Nav.Link as={Link} to="/AllPost">ALL Posts</Nav.Link>
               <Nav.Link href="#pricing">Pricing</Nav.Link>
               <Nav.Link href="#deets">More deets</Nav.Link>
               <Nav.Link eventKey={2} href="#memes">

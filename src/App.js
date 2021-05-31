@@ -3,9 +3,11 @@ import { createContext, useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
-import Home from "./components/Home/Home";
+import AllPost from "./components/AllPosts/AllPosts";
+import PostDetails from "./components/PostDetails/PostDetails";
 
-export const userContext = createContext();
+
+export const blogContext = createContext();
 
 
 
@@ -34,22 +36,26 @@ useEffect(() => {
 
   
   return (
-    <userContext.Provider value={{post,setPost}}>
+    <blogContext.Provider value={{post,setPost}}>
   
       <Router>
         <Switch>
           <Route exact path="/">
             <Navigation />
-            <Home/>
+            <AllPost/>
           </Route>
-          <Route path="/home">
+          <Route path="/AllPost">
             <Navigation />
-            <Home/>
+            <AllPost/>
+          </Route>
+          <Route path="/postDetails/:id">
+            <Navigation />
+             <PostDetails/>
           </Route>
         </Switch>
       </Router>
      
-    </userContext.Provider>
+    </blogContext.Provider>
   );
 }
 
