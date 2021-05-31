@@ -26,7 +26,7 @@ const AllPost = () => {
               <p>{x.body}</p>
             </div>
             <Link to={`/postDetails/${x.id}`} className="ms-auto">
-              <button className="btn btn-outline-primary">post details</button>
+              <button className="btn btn-outline-primary">Post Details</button>
             </Link>
           </div>
         </>

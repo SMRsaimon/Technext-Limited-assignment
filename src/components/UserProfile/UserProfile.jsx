@@ -36,7 +36,6 @@ const UserProfile = () => {
   const HendelMyPost=(id)=>{
 
     const userPosts = post.filter((x) => x.userId == id);
-
     setUserPost(userPosts)
   }
 
