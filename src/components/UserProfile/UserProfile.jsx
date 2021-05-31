@@ -12,7 +12,7 @@ const UserProfile = () => {
   const [profileDetails, setProfileDetails] = useState(true);
   const { post } = useContext(blogContext);
 
-  
+
   const adress =
     profile?.address?.street +
     ", " +
@@ -89,7 +89,7 @@ const UserProfile = () => {
   const handleAddPost = async (title, body) => {
     await fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
-      body: JSON.stringify({title, body}),
+      body: JSON.stringify({title:title, body:body}),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
