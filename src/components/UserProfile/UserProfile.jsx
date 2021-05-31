@@ -5,9 +5,11 @@ import UserDetails from "./UserDetails";
 import "./UserProfile.css";
 
 const UserProfile = () => {
-  const [profile, setProfile] = useState({});
-
   const [userPost, setUserPost] = useState([]);
+  const [profile, setProfile] = useState({});
+  
+
+  const [profileDetails, setProfileDetails] = useState(true);
   const { post } = useContext(blogContext);
   const adress =
     profile?.address?.street +
@@ -33,11 +35,71 @@ const UserProfile = () => {
     fetchMyAPI();
   }, []);
 
-  const HendelMyPost=(id)=>{
+
+  const hendelPostDelete = (id) => {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.status !== 200) {
+        return;
+      } else {
+        const remaingPost = post.filter((x) => x.id !== id);
+
+        setUserPost(remaingPost);
+      }
+    });
+  };
+
+
+  const HendelPostEdit = async (id, title, body) => {
+    await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title: title,
+        body: body
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          return;
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+
+        console.log(data)
+       
+        const updatedPosts= userPost.map((x) => {
+          if (x.id === id) {
+            x.title = title;
+            x.body = body;
+          }
+
+          return x;
+        });
+
+        setUserPost((userPost) => updatedPosts);
+      })
+      .catch((error) => console.log(error));
+  };
+
+
+  const hendelProfileDetails=()=>{
+
+    setProfileDetails(!profileDetails)
+    setUserPost([])
+  }
+  const HendelMyPost = (id) => {
+    
 
     const userPosts = post.filter((x) => x.userId == id);
-    setUserPost(userPosts)
-  }
+    setUserPost(userPosts);
+    setProfileDetails(false);
+  };
 
   return (
     <div id="user-info">
@@ -59,18 +121,27 @@ const UserProfile = () => {
                       <p className="text-muted font-size-sm">{adress}</p>
                     </div>
                     <div className="">
-                      <button onClick={()=>HendelMyPost(profile.id)} className="btn btn-outline-primary">
+                      <button
+                        onClick={() => HendelMyPost(profile.id)}
+                        className="btn btn-outline-primary"
+                      >
                         My Posts
                       </button>{" "}
                       &nbsp;
-                      <button className="btn btn-outline-primary">ADD New Post</button>&nbsp;
-
-                      {
-                       userPost.length!==0 ?<button onClick={()=>setUserPost([])} className="btn btn-primary">Profile Details</button>
-                                         :""
-
-                      }
-                      
+                      <button className="btn btn-outline-primary">
+                        ADD New Post
+                      </button>
+                      &nbsp;
+                      {profileDetails === false ? (
+                        <button
+                          onClick={hendelProfileDetails}
+                          className="btn btn-primary"
+                        >
+                          Profile Details
+                        </button>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </div>
@@ -78,12 +149,22 @@ const UserProfile = () => {
             </div>
 
             <div className="col-md-8">
-              {
+              {profileDetails ? (
+                <UserDetails profile={profile} adress={adress} />
+              ) : (
+                ""
+              )}
+              {userPost.length !== 0 ? (
+                <div className="container">
+                  {
+                       userPost.map(x=> <MyPost posts={x} HendelPostEdit={HendelPostEdit} hendelPostDelete={hendelPostDelete}  />)
 
-                userPost.length===0 ?<UserDetails profile={profile} adress={adress} />
-                               : <MyPost userPost={userPost}/>
-              }
-            
+                  }
+                 
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

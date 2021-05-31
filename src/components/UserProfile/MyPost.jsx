@@ -1,63 +1,66 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const MyPost = ({userPost}) => {
+const MyPost = (props) => {
+  const { hendelPostDelete, posts , HendelPostEdit} = props;
 
+  const [isEdit, setIsEdit] = useState(false);
 
-    const [post, setPost] = useState(userPost);
+  console.log(posts);
 
-    const hendelPostDelete=(id)=>{
-        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-            method: 'DELETE',
-          })
-          .then(res=>{
-            if (res.status !== 200) {
-                return;
-              } else {
+  const handleEdit = () => {
+    setIsEdit(!isEdit);
+  };
+  const handleOnEditSubmit = (evt) => {
+    evt.preventDefault();
+    HendelPostEdit(posts.id, evt.target.title.value, evt.target.body.value);
+    setIsEdit(!isEdit);
+  };
 
-                const remaingPost= post.filter((x) => x.id !== id);
-                   
-                setPost(remaingPost)
-                   
-                  
-          }
+  return (
+    <>
+      {isEdit ? (
 
-    })
+          <div className="card shadow-lg bg-dark p-4">
 
-}
-
-
-
-    return (
-        <div className="container">
-        {post.map((x) => (
-          <>
-            <div className="card my-3 p-3">
-              <div className="card-title">
-              
-                <h4 className="text-center text-uppercase">{x.title}</h4>
-              </div>
-  
-              <div className="card-body">
-                <p>{x.body}</p>
-              </div>
-              <div>
-              <button  onClick={()=>hendelPostDelete(x.id)} className="btn btn-danger">Delete Post</button> &nbsp;
-              <button className="btn btn-outline-primary">Edit Post</button>&nbsp;
-              <Link to={`/postDetails/${x.id}`} className="ms-auto">
-                <button className="btn btn-outline-primary">Post Details</button>
-              </Link>
-
-              </div>
-              
-              
-            </div>
-          </>
-        ))}
-  
        
-      </div>
-    );
+        <form className="form-group" onSubmit={handleOnEditSubmit}>
+            <label className="text-light"  id="title" >Post Title: </label> <br/>
+          <input type="text" placeholder="title" name="title" defaultValue={posts.title} required />
+          <label  className="text-light" id="body" >Post Body: </label> <br/>
+          <textarea type="text" placeholder="body" name="body" defaultValue={posts.body}  required/> &nbsp;
+          <button className="btn btn-success" onSubmit={handleOnEditSubmit}>Save</button>
+        </form>
+        </div>
+      ) : (
+        <div className="card my-3 p-3">
+          <div className="card-title">
+            <h4 className="text-center text-uppercase">{posts.title}</h4>
+          </div>
+
+          <div className="card-body">
+            <p>{posts.body}</p>
+          </div>
+          <div>
+            <button
+              onClick={() => hendelPostDelete(posts.id)}
+              className="btn btn-danger"
+            >
+              Delete Post
+            </button>{" "}
+            &nbsp;
+            <button onClick={handleEdit} className="btn btn-outline-primary">
+              Edit Post
+            </button>
+            &nbsp;
+            <Link to={`/postDetails/${posts.id}`} className="ms-auto">
+              <button className="btn btn-outline-primary">Post Details</button>
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default MyPost;
