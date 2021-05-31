@@ -11,10 +11,9 @@ const Navigation = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mx-auto ">
-              <Nav.Link as={Link} to="/profile">User Profile</Nav.Link>
+              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
               <Nav.Link as={Link} to="/AllPost">ALL Posts</Nav.Link>
-           
-            
+              <Nav.Link as={Link} to="/AllUsers">ALL Users</Nav.Link>          
             </Nav>
             <Nav></Nav>
           </Navbar.Collapse>

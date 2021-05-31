@@ -27,18 +27,14 @@ const PostDetails = () => {
 
   return (
     <>
-     {
-          id >100? <>
-
+      {id > 100 ? (
+        <>
           <div className="card p-5 container mt-5 pt-5">
-          <h2>Post is under review </h2>
+            <h2>Post is under review </h2>
           </div>
-          
-          
-           
-           
-           </>:
-          <div className="container">
+        </>
+      ) : (
+        <div className="container">
           <div className="row d-flex justify-content-center">
             <div className="col-md-8">
               <div className="card my-3 p-3">
@@ -48,7 +44,7 @@ const PostDetails = () => {
                     {selectedPost?.title}
                   </h4>
                 </div>
-  
+
                 <div className="card-body">
                   <p>{selectedPost?.body}</p>
                 </div>
@@ -58,7 +54,7 @@ const PostDetails = () => {
           <div className="row">
             <h4>Comments</h4>
             <hr />
-  
+
             {postComments.map((x) => (
               <>
                 <div className="col-sm-5 col-md-8 col-12 pb-4">
@@ -78,11 +74,7 @@ const PostDetails = () => {
             ))}
           </div>
         </div>
-         
-
-
-
-     }
+      )}
     </>
   );
 };

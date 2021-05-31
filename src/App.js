@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation/Navigation";
 import AllPost from "./components/AllPosts/AllPosts";
 import PostDetails from "./components/PostDetails/PostDetails";
 import UserProfile from "./components/UserProfile/UserProfile";
+import ALLUsers from "./components/ALLUsers/ALLUsers";
 
 
 export const blogContext = createContext();
@@ -43,20 +44,25 @@ useEffect(() => {
         <Switch>
           <Route exact path="/">
             <Navigation />
-            <AllPost/>
-          </Route>
-          <Route path="/AllPost">
-            <Navigation />
-            <AllPost/>
-          </Route>
-          <Route path="/postDetails/:id">
-            <Navigation />
-             <PostDetails/>
+            <UserProfile/>
           </Route>
           <Route path="/profile">
             <Navigation />
              <UserProfile/>
           </Route>
+          <Route path="/AllPost">
+            <Navigation />
+            <AllPost/>
+          </Route>
+          <Route path="/AllUsers">
+            <Navigation />
+            <ALLUsers/>
+          </Route>
+          <Route path="/postDetails/:id">
+            <Navigation />
+             <PostDetails/>
+          </Route>
+         
         </Switch>
       </Router>
      
