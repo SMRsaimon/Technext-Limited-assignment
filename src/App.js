@@ -1,25 +1,72 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { createContext, useEffect, useState } from "react";
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navigation from "./components/Navigation/Navigation";
+import Home from "./components/Home/Home";
+
+export const userContext = createContext();
+
+
 
 function App() {
+
+  const [post, setPost] = useState([]);
+
+useEffect(() => {
+  async function fetchMyAPI() {
+    try {
+      let response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      response = await response.json();
+      setPost(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  fetchMyAPI();
+}, []);
+
+
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <userContext.Provider value={{post,setPost}}>
+  
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Navigation />
+            <Home/>
+          </Route>
+          <Route path="/home">
+            <Navigation />
+            <Home/>
+          </Route>
+        </Switch>
+      </Router>
+     
+    </userContext.Provider>
   );
 }
 
 export default App;
+
+// useEffect(() => {
+//   async function fetchMyAPI() {
+//     try {
+//       let response = await fetch(
+//         "https://resturant243.herokuapp.com/orderDetails"
+//       );
+//       response = await response.json();
+//       setOrder(response);
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
+
+//   fetchMyAPI();
+// }, []);
