@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import AllPost from "./components/AllPosts/AllPosts";
 import PostDetails from "./components/PostDetails/PostDetails";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 
 export const blogContext = createContext();
@@ -51,6 +52,10 @@ useEffect(() => {
           <Route path="/postDetails/:id">
             <Navigation />
              <PostDetails/>
+          </Route>
+          <Route path="/profile">
+            <Navigation />
+             <UserProfile/>
           </Route>
         </Switch>
       </Router>

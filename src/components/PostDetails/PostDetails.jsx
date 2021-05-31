@@ -51,13 +51,17 @@ const PostDetails = () => {
           {postComments.map((x) => (
             <>
               <div className="col-sm-5 col-md-8 col-12 pb-4">
-              <div className="comment mt-4 text-justify float-left">
-            <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" className="rounded-circle" width="40" height="40"/> 
-               <h4>{x.name}</h4> <span>- {x.email}</span> <br/>
-               <p>{x.body}</p>
-           </div>
-
-
+                <div className="comment mt-4 text-justify float-left">
+                  <img
+                    src="https://i.imgur.com/CFpa3nK.jpg"
+                    alt=""
+                    className="rounded-circle"
+                    width="40"
+                    height="40"
+                  />
+                  <h4>{x.name}</h4> <span>- {x.email}</span> <br />
+                  <p>{x.body}</p>
+                </div>
               </div>
             </>
           ))}
