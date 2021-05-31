@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { blogContext } from "../../App";
+import AddPosts from "./AddPosts/AddPosts";
 import MyPost from "./MyPost";
 import UserDetails from "./UserDetails";
 import "./UserProfile.css";
@@ -7,10 +8,11 @@ import "./UserProfile.css";
 const UserProfile = () => {
   const [userPost, setUserPost] = useState([]);
   const [profile, setProfile] = useState({});
-  
-
+  const [newPost,setNewPost]=useState(false)
   const [profileDetails, setProfileDetails] = useState(true);
   const { post } = useContext(blogContext);
+
+  
   const adress =
     profile?.address?.street +
     ", " +
@@ -35,7 +37,6 @@ const UserProfile = () => {
     fetchMyAPI();
   }, []);
 
-
   const hendelPostDelete = (id) => {
     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
       method: "DELETE",
@@ -50,17 +51,16 @@ const UserProfile = () => {
     });
   };
 
-
   const HendelPostEdit = async (id, title, body) => {
     await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
       method: "PUT",
       body: JSON.stringify({
         title: title,
-        body: body
+        body: body,
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
+        "Content-type": "application/json; charset=UTF-8",
+      },
     })
       .then((response) => {
         if (response.status !== 200) {
@@ -70,10 +70,9 @@ const UserProfile = () => {
         }
       })
       .then((data) => {
+        console.log(data);
 
-        console.log(data)
-       
-        const updatedPosts= userPost.map((x) => {
+        const updatedPosts = userPost.map((x) => {
           if (x.id === id) {
             x.title = title;
             x.body = body;
@@ -87,15 +86,33 @@ const UserProfile = () => {
       .catch((error) => console.log(error));
   };
 
+  const handleAddPost = async (title, body) => {
+    await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify({title, body}),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then((response) => {
+        if (response.status !== 201) {
+          return;
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setUserPost([data,...userPost]);
+      })
+      .catch((error) => console.log(error));
+  };
 
-  const hendelProfileDetails=()=>{
-
-    setProfileDetails(!profileDetails)
-    setUserPost([])
-  }
+  const hendelProfileDetails = () => {
+    setProfileDetails(!profileDetails);
+    setUserPost([]);
+    setNewPost(false)
+  };
   const HendelMyPost = (id) => {
-    
-
     const userPosts = post.filter((x) => x.userId == id);
     setUserPost(userPosts);
     setProfileDetails(false);
@@ -107,7 +124,9 @@ const UserProfile = () => {
         <div className="main-body">
           <div className="row gutters-sm">
             <div className="col-md-4 mb-3">
-              <div className="card">
+              <div className="row">
+                <div className="col-12">
+                <div className="card">
                 <div className="card-body m-2">
                   <div className="d-flex flex-column align-items-center text-center">
                     <img
@@ -128,9 +147,12 @@ const UserProfile = () => {
                         My Posts
                       </button>{" "}
                       &nbsp;
-                      <button className="btn btn-outline-primary">
+                      {
+                        userPost.length !== 0 ? <button onClick={()=>setNewPost(true)} className="btn btn-outline-primary">
                         ADD New Post
-                      </button>
+                      </button>:""
+                      }
+                     
                       &nbsp;
                       {profileDetails === false ? (
                         <button
@@ -146,6 +168,22 @@ const UserProfile = () => {
                   </div>
                 </div>
               </div>
+
+                </div>
+                <div className="col-12">
+
+                  {
+                newPost&&<AddPosts handleAddPost={handleAddPost} />
+                  }
+
+                
+
+                </div>
+              </div>
+
+             
+
+
             </div>
 
             <div className="col-md-8">
@@ -156,16 +194,21 @@ const UserProfile = () => {
               )}
               {userPost.length !== 0 ? (
                 <div className="container">
-                  {
-                       userPost.map(x=> <MyPost posts={x} HendelPostEdit={HendelPostEdit} hendelPostDelete={hendelPostDelete}  />)
-
-                  }
                  
+                  {userPost.map((x) => (
+                    <MyPost
+                      posts={x}
+                      HendelPostEdit={HendelPostEdit}
+                      hendelPostDelete={hendelPostDelete}
+                    />
+                  ))}
                 </div>
               ) : (
                 ""
               )}
             </div>
+
+           
           </div>
         </div>
       </div>
