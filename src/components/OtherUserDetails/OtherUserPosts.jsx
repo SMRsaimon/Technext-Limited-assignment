@@ -6,49 +6,35 @@ import { blogContext } from "../../App";
 const OtherUserPosts = ({ id }) => {
   const { post } = useContext(blogContext);
   const selectedPost = post.filter((x) => x.userId == id);
-  const [posts, setPosts] = useState(selectedPost.slice(0,2));
-
-
- useLayoutEffect(() => {
-
-
-  
- }, []);
+  const [posts, setPosts] = useState(selectedPost.slice(0, 2));
 
 
 
-
-  const hendelPagination=(e)=>{
-
+  const hendelPagination = (e) => {
     switch (e.target.innerText) {
-        case "1":
-            const newPost=selectedPost.slice(0,2)
-            setPosts([...newPost])
-            break;
-            case "2":
-               const   newPost2=selectedPost.slice(2,4)
-                setPosts([...newPost2])
-                break;
-                case "3":
-                    const   newPost3=selectedPost.slice(4,6)
-                     setPosts([...newPost3])
-                     break;
-                     case "4":
-                        const   newPost4=selectedPost.slice(6,8)
-                         setPosts([...newPost4])
-                         break;
-    
-        default:
-            const   remainingPost=selectedPost.slice(8,100)
-                         setPosts([...remainingPost])
-            break;
+      case "1":
+        const newPost = selectedPost.slice(0, 2);
+        setPosts([...newPost]);
+        break;
+      case "2":
+        const newPost2 = selectedPost.slice(2, 4);
+        setPosts([...newPost2]);
+        break;
+      case "3":
+        const newPost3 = selectedPost.slice(4, 6);
+        setPosts([...newPost3]);
+        break;
+      case "4":
+        const newPost4 = selectedPost.slice(6, 8);
+        setPosts([...newPost4]);
+        break;
+
+      default:
+        const remainingPost = selectedPost.slice(8, 100);
+        setPosts([...remainingPost]);
+        break;
     }
-
-  
-
-
-
-  }
+  };
 
   return (
     <>
@@ -66,9 +52,12 @@ const OtherUserPosts = ({ id }) => {
           </Link>
         </div>
       ))}
-      <div className="container pagination-container"  onClick={hendelPagination}>
+      <div
+        className="container pagination-container"
+        onClick={hendelPagination}
+      >
         <button>1</button>
-         <button>2</button>
+        <button>2</button>
         <button>3</button>
         <button>4</button>
         <button>5</button>
