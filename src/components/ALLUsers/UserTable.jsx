@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserTable = ({ user, ascending, descending }) => {
 
@@ -18,7 +19,9 @@ const UserTable = ({ user, ascending, descending }) => {
         {user.map((x) => (
           <>
             <tr>
-              <td>{x?.name}</td>
+              <td> <Link to={`/otherUser/userDetails/userID=${x.id}`} style={{color:"black"}}>  {x?.name}</Link> </td>
+              
+            
               <td>{x?.email}</td>
               <td>{x?.company?.name}</td>
             </tr>

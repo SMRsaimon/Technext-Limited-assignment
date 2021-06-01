@@ -22,13 +22,9 @@ const ALLUsers = () => {
   }, []);
   //   ascending,
   const ascending = (type) => {
-
-  
     if (type === "name") {
-
-       
       let ASCbyName = user.sort((f, s) => f.name.length - s.name.length);
-      
+
       setUser([...ASCbyName]);
     }
     if (type === "email") {
@@ -40,10 +36,6 @@ const ALLUsers = () => {
 
   //   descending
   const descending = (type) => {
-
-
-
- 
     if (type === "name") {
       let DECbyName = user.sort((f, s) => s.name.length - f.name.length);
       setUser([...DECbyName]);
@@ -61,7 +53,11 @@ const ALLUsers = () => {
 
         <div className="row">
           <div className="col-md-10 offset-md-1 mt-5">
-            <UserTable ascending={ascending} descending={descending} user={user} />
+            <UserTable
+              ascending={ascending}
+              descending={descending}
+              user={user}
+            />
           </div>
         </div>
       </div>
